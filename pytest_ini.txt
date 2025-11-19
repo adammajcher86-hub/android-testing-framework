@@ -1,0 +1,25 @@
+[pytest]
+# Test discovery patterns
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+
+# Test output
+addopts = 
+    -v
+    -s
+    --tb=short
+    --html=reports/report.html
+    --self-contained-html
+
+# Markers (for organizing tests)
+markers =
+    smoke: Quick smoke tests
+    regression: Full regression suite
+    search: Search functionality tests
+    navigation: Navigation tests
+    slow: Tests that take longer to run
+
+# Logging
+log_cli = true
+log_cli_level = INFO
