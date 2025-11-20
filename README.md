@@ -123,7 +123,7 @@ Add to PATH:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/android-testing-framework.git
+git clone https://github.com/adammajcher86-hub/android-testing-framework.git
 cd android-testing-framework
 ```
 
