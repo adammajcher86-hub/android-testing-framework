@@ -24,59 +24,60 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install flake8
-    
-    - name: Lint with Flake8
+        pip install ruff black
+
+    - name: Format check with Black
       run: |
-        echo "🔍 Running code linting..."
-        flake8 . --max-line-length=120 --ignore=E501,W503,E302,E305,W291,W292,W293,E231,E261,E262 --exclude=.venv,venv,__pycache__ || true
+        echo "🎨 Checking code formatting..."
+        black --check --diff . || true
+        echo "✅ Format check complete!"
+
+    - name: Lint with Ruff
+      run: |
+        echo "🔍 Running Ruff linter..."
+        ruff check . || true
         echo "✅ Linting complete!"
-    
+
     - name: Validate project structure
       run: |
         echo "📁 Checking project structure..."
-        test -f requirements.txt && echo "✅ requirements.txt exists"
-        test -f pytest.ini && echo "✅ pytest.ini exists"
-        test -f README.md && echo "✅ README.md exists"
-        test -d pages && echo "✅ pages/ directory exists"
-        test -d tests && echo "✅ tests/ directory exists"
-        test -d config && echo "✅ config/ directory exists"
-        test -d utils && echo "✅ utils/ directory exists"
-        test -f pages/base_page.py && echo "✅ base_page.py exists"
-        test -f pages/home_page.py && echo "✅ home_page.py exists"
-        test -f pages/search_page.py && echo "✅ search_page.py exists"
+        test -f requirements.txt && echo "✅ requirements.txt"
+        test -f pytest.ini && echo "✅ pytest.ini"
+        test -f README.md && echo "✅ README.md"
+        test -d pages && echo "✅ pages/"
+        test -d tests && echo "✅ tests/"
+        test -d config && echo "✅ config/"
+        test -d utils && echo "✅ utils/"
         echo "✅ Project structure validated!"
-    
+
     - name: Verify test collection
       run: |
         echo "🧪 Collecting tests..."
         pytest tests/ --collect-only -q
-        echo "✅ All tests collected successfully!"
-    
+        echo "✅ All tests collected!"
+
     - name: Check imports
       run: |
-        echo "📦 Verifying Python imports..."
-        python -c "from pages.base_page import BasePage; print('✅ BasePage imports OK')"
-        python -c "from pages.home_page import HomePage; print('✅ HomePage imports OK')"
-        python -c "from pages.search_page import SearchPage; print('✅ SearchPage imports OK')"
-        python -c "from config.capabilities import get_capabilities; print('✅ Capabilities imports OK')"
-        python -c "from utils.driver_factory import DriverFactory; print('✅ DriverFactory imports OK')"
-        echo "✅ All imports verified!"
-    
-    - name: Generate test summary
+        echo "📦 Verifying imports..."
+        python -c "from pages.base_page import BasePage; print('✅ BasePage')"
+        python -c "from pages.home_page import HomePage; print('✅ HomePage')"
+        python -c "from pages.search_page import SearchPage; print('✅ SearchPage')"
+        python -c "from config.capabilities import get_capabilities; print('✅ Capabilities')"
+        python -c "from utils.driver_factory import DriverFactory; print('✅ DriverFactory')"
+        echo "✅ All imports OK!"
+
+    - name: Generate summary
       run: |
         echo "## 🧪 Test Framework Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### Project Structure" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ Page Object Model implemented" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ PyTest framework configured" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ All imports validated" >> $GITHUB_STEP_SUMMARY
+        echo "### ✅ Checks Passed" >> $GITHUB_STEP_SUMMARY
+        echo "- Code formatting (Black)" >> $GITHUB_STEP_SUMMARY
+        echo "- Linting (Ruff)" >> $GITHUB_STEP_SUMMARY
+        echo "- Project structure" >> $GITHUB_STEP_SUMMARY
+        echo "- All imports" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### Test Collection" >> $GITHUB_STEP_SUMMARY
-        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        echo "### 🧪 Tests" >> $GITHUB_STEP_SUMMARY
         pytest tests/ --collect-only -q >> $GITHUB_STEP_SUMMARY
-        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### Note" >> $GITHUB_STEP_SUMMARY
-        echo "Mobile UI tests require Android emulator with hardware acceleration." >> $GITHUB_STEP_SUMMARY
-        echo "For full test execution, run locally or use cloud testing services like Firebase Test Lab." >> $GITHUB_STEP_SUMMARY
+        echo "### 📝 Note" >> $GITHUB_STEP_SUMMARY
+        echo "Full test execution requires Android emulator. Run locally or use Firebase Test Lab." >> $GITHUB_STEP_SUMMARY

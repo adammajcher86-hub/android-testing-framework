@@ -1,18 +1,19 @@
-
 """
 Home Page - Wikipedia main screen
 """
+
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
 from pages.search_page import SearchPage
+
 
 class HomePage(BasePage):
     """Wikipedia home page object"""
 
     # LOCATORS - All element identifiers in one place
-    SKIP_BUTTON = (AppiumBy.ID, 'org.wikipedia:id/fragment_onboarding_skip_button')
-    SEARCH_CONTAINER = (AppiumBy.ID, 'org.wikipedia:id/search_container')
-    SEARCH_TEXT = (AppiumBy.ID, 'org.wikipedia:id/search_src_text')
+    SKIP_BUTTON = (AppiumBy.ID, "org.wikipedia:id/fragment_onboarding_skip_button")
+    SEARCH_CONTAINER = (AppiumBy.ID, "org.wikipedia:id/search_container")
+    SEARCH_TEXT = (AppiumBy.ID, "org.wikipedia:id/search_src_text")
 
     # ACTIONS - What you can DO on this page
 
@@ -26,8 +27,8 @@ class HomePage(BasePage):
         try:
             self.click(self.SKIP_BUTTON)
             print("✓ Skipped onboarding")
-        except:
-            print("ℹ No onboarding screen")
+        except Exception as e:
+            print(f"ℹ No onboarding screen, error: {e}")
         return self
 
     def is_search_displayed(self):

@@ -2,9 +2,9 @@
 Base Page - Parent class for all page objects
 Contains common methods used by all pages
 """
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from appium.webdriver.common.appiumby import AppiumBy
 
 
 class BasePage:
@@ -67,7 +67,8 @@ class BasePage:
         try:
             element = self.find_element(locator)
             return element.is_displayed()
-        except:
+        except Exception as e:
+            print(f"ℹElement is not visible, error: {e}")
             return False
 
     def get_text(self, locator):
