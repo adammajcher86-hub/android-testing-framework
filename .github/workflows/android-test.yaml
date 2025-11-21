@@ -44,17 +44,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Download Wikipedia APK
-      run: |
-        mkdir -p apps
-        # Download Wikipedia APK from APKPure or similar
-        wget -O apps/wikipedia.apk "https://d.apkpure.com/b/APK/org.wikipedia?version=latest"
+    #- name: Download Wikipedia APK
+    #  run: |
+    #    mkdir -p apps
+    #    # Download Wikipedia APK from APKPure or similar
+    #    wget -O apps/wikipedia.apk "https://d.apkpure.com/b/APK/org.wikipedia?version=latest"
 
     - name: Enable KVM (for Android Emulator)
       run: |
         echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
 
     - name: AVD cache
       uses: actions/cache@v4
